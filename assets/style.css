@@ -1,0 +1,24 @@
+
+.search {
+    display: flex;
+    flex-direction: column;
+    margin: 3px;
+    padding: 3px;
+}
+
+label {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.future-weather {
+    margin: 0 8px 0 8px;
+    padding: 4px 16px 4px 16px;
+    border: 1px solid #0d6efd; 
+    border-radius: 4px;
+    color: white;
+    background-color: #212529;
+    min-height: 250px;
+    min-width: 100px;
+
+}
