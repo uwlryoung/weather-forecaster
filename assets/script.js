@@ -11,30 +11,44 @@ var dayAfter4 = $("#dayAfter-4");
 var dayAfter5 = $("#dayAfter-5");
 
 var searchFormEl = $("#search-form");
+var apiKey = "0abc1b8372c44587f42b9a4f3413df22";
 
-var lat = 0;
-var lon = 0;
+// var lat = 0;
+// var lon = 0;
 
-
+//Function to get the weather
 searchFormEl.on("submit", function(event){
     event.preventDefault();
     var city = currentCity.val();
 
-    var requestLatLon = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&appid=0abc1b8372c44587f42b9a4f3413df22"
+    var requestLatLon = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&appid=" + apiKey;
     fetch(requestLatLon)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-        console.log(data);
-        lat = data[0].lat;
-        lon = data[0].lon;
-        console.log(lat);
-        console.log(lon);
-    });
+        // console.log(data);
+        var lat = data[0].lat;
+        var lon = data[0].lon;
+        var requestWeather = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + apiKey;
 
-    
+        fetch(requestWeather)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+        });
+    });
 });   
+
+
+
+
+
+
+
+
 
 //TODO - A click function for when a city is searched. 
 //This will unhide the weather data and render weather info for the searched city
