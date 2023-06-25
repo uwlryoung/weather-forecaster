@@ -1,4 +1,8 @@
 
+#search-bar {
+    max-width: 500px;
+}
+
 .search {
     display: flex;
     flex-direction: column;
@@ -11,6 +15,10 @@ label {
     font-weight: bold;
 }
 
+/* .weather-info[data-state="hidden"] {
+    display: none
+} */
+
 .future-weather {
     margin: 0 8px 0 8px;
     padding: 4px 16px 4px 16px;
@@ -22,3 +30,4 @@ label {
     min-width: 100px;
 
 }
+
