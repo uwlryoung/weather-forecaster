@@ -22,12 +22,13 @@ label {
 .future-weather {
     margin: 0 8px 0 8px;
     padding: 4px 16px 4px 16px;
-    border: 1px solid #0d6efd; 
+    border: 1px solid #212529; 
     border-radius: 4px;
     color: white;
-    background-color: #212529;
+    background-color: #3c89fd;
     min-height: 250px;
     min-width: 100px;
+    text-align: center;
 
 }
 

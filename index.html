@@ -41,21 +41,16 @@
         <div id="search-history" class="border-top border-2 border-primary border-opacity-50"></div>
       </div>
 
-      <div class="weather-info col-9 m-2" data-state="hidden">
-        <div id="current-weather" class="p-3 border border-2 border-primary">
-          <h2>The City location!</h2>
-          <p id="temp">Temp</p>
-          <p id="wind">Wind</p>
-          <p id="humidity">Humidity</p>
+      <div class="weather-info col-9 m-2">
+        <div id="current-weather" class="p-3">
+          <h2 id="displayCity"></h2>
+          <h3 id="date"></h3>
+          <img id="icon">
+          <p id="temp"></p>
+          <p id="wind"></p>
+          <p id="humidity"></p>
         </div>
-        <div id="future-forecast" class="row p-2">
-          <h2>5-day Forecast</h2>
-          <div id="dayAfter-1" class="future-weather col">tomorrow</div>
-          <div id="dayAfter-2" class="future-weather col">day after tomorrow</div>
-          <div id="dayAfter-3" class="future-weather col">in three days</div>
-          <div id="dayAfter-4" class="future-weather col">in four days</div>
-          <div id="dayAfter-5" class="future-weather col">in five days</div>
-        </div>
+        <div id="future-forecast" class="row p-2"></div>
       </div>
     </div>
 
