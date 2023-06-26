@@ -7,18 +7,29 @@ var currentIcon = $("#icon");
 var currentCity = $("#city");
 var currentDate = $("#date");
 var displayCity = $("#displayCity");
-var futureForecast = document.getElementById("future-forecast");
 var searchFormEl = $("#search-form");
+var futureForecast = document.getElementById("future-forecast");
+var searchHistory = document.getElementById("search-history");
 
 var apiKey = "0abc1b8372c44587f42b9a4f3413df22";
 
+var renderedForecast = 0;
 
 //Click Event to get the submitted city 
 searchFormEl.on("submit", function(event){
     event.preventDefault();
-    
+
+
+    futureForecast.replaceChildren();
     var city = currentCity.val();
+    
+    if (city === ""){
+      alert("Please Enter a City");
+      return;
+    } 
+    
     displayCity.text(city);
+    saveSearchHistory(city);
     getLatLon(city);
 });   
 
@@ -45,7 +56,6 @@ function getCurrentWeather (lat,lon){
       return response.json();
     })
     .then(function (data){
-      console.log(data);
       currentDate.text(dayjs().format("dddd[, ]MMMM[ ]D"));
       currentIcon.attr("src", "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png");
       currentTemp.text("Temp: " + data.main.temp + "\u00B0F");
@@ -61,17 +71,11 @@ function getForecastWeather (lat,lon){
       return response.json();
     })
     .then(function (data){
-      console.log(data);
-
       var forecastHeader = document.createElement("h2");
-      forecastHeader.textContent = "5-day Forecast";
+      forecastHeader.textContent = "5-day Forecast for " + data.city.name;
       futureForecast.appendChild(forecastHeader);
 
-
       for(i = 1; i < data.list.length; i+=8){
-        console.log(data.list[i].main.temp);
-        console.log(data.list[i].dt_txt);
-
         var weatherCard = document.createElement("div");
         weatherCard.setAttribute("class", "future-weather col");
 
@@ -79,7 +83,7 @@ function getForecastWeather (lat,lon){
 
         var dateEl = document.createElement("p");
         dateEl.style.fontSize = "20px";
-        dateEl.textContent = dayjs.unix(data.list[i].dt).format("ddd[,] MMM D")
+        dateEl.textContent = dayjs.unix(data.list[i].dt).format("ddd[,] MMM D");
         weatherCard.appendChild(dateEl);
 
         var iconEl = document.createElement("img");
@@ -98,10 +102,25 @@ function getForecastWeather (lat,lon){
         humidityEl.textContent = "Humidity: " + data.list[i].main.humidity + "%";
         weatherCard.appendChild(humidityEl);
       }
-    })
-
-    
+    });
 };
+
+function saveSearchHistory(city) {
+  var cities = JSON.parse(localStorage.getItem("previousCities"));
+
+  if (cities === null){
+    cities = [];
+    cities.push(city);
+  } else if (cities.indexOf(city) === -1) {
+    cities.push(city);
+  } else {
+  }
+
+  localStorage.setItem("previousCities", JSON.stringify(cities));
+}
+
+
+// Questions: 
 
 
 //TODO - A click function for when a city is searched. 
