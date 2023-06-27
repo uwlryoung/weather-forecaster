@@ -12,8 +12,9 @@ var futureForecast = document.getElementById("future-forecast");
 var searchHistory = document.getElementById("search-history");
 
 var apiKey = "0abc1b8372c44587f42b9a4f3413df22";
+// var cityButton = futureForecast.querySelectorAll(".button");
 
-
+renderSearchHistory();
 
 //Click Event to get the submitted city 
 searchFormEl.on("submit", function(event){
@@ -36,6 +37,11 @@ searchFormEl.on("submit", function(event){
     saveSearchHistory(city);
     getLatLon(city);
 });   
+
+cityButton.addEventListener("click", function(){
+  var city = getLatLon(cityButton.textContent);
+  console.log(city);
+})
 
 //Functions to get the Current Weather (first gets the Latitude/Longitude, then gets the weather from the city)
 function getLatLon (city){
@@ -141,9 +147,11 @@ function renderNewCitySearch(city){
   cityButton.setAttribute("class", "button");
   cityButton.textContent = city;
   searchHistory.appendChild(cityButton);
+  return cityButton;
 }
 
-renderSearchHistory();
+//Function loads on page load, getting past searches
+// renderSearchHistory();
 
 
 
