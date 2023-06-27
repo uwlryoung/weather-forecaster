@@ -12,7 +12,6 @@ var futureForecast = document.getElementById("future-forecast");
 var searchHistory = document.getElementById("search-history");
 
 var apiKey = "0abc1b8372c44587f42b9a4f3413df22";
-// var cityButton = futureForecast.querySelectorAll(".button");
 
 renderSearchHistory();
 
@@ -36,10 +35,11 @@ searchFormEl.on("submit", function(event){
     displayCity.text(city);
     saveSearchHistory(city);
     getLatLon(city);
-});   
+});  
 
-cityButton.addEventListener("click", function(){
-  var city = getLatLon(cityButton.textContent);
+//Click Event to get a previously submitted city (rendered Search History Buttons)
+$("button").on("click", function(){
+  var city = $("button").text();
   console.log(city);
 })
 
