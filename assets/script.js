@@ -13,12 +13,11 @@ var searchHistory = document.getElementById("search-history");
 
 var apiKey = "0abc1b8372c44587f42b9a4f3413df22";
 
-var renderedForecast = 0;
+
 
 //Click Event to get the submitted city 
 searchFormEl.on("submit", function(event){
     event.preventDefault();
-
 
     futureForecast.replaceChildren();
     var city = currentCity.val();
@@ -28,6 +27,11 @@ searchFormEl.on("submit", function(event){
       return;
     } 
     
+    var cities = JSON.parse(localStorage.getItem("previousCities"));
+    if (cities.indexOf(city) === -1){
+      renderNewCitySearch(city);
+    }
+
     displayCity.text(city);
     saveSearchHistory(city);
     getLatLon(city);
@@ -115,18 +119,35 @@ function saveSearchHistory(city) {
     cities.push(city);
   } else {
   }
-
   localStorage.setItem("previousCities", JSON.stringify(cities));
 }
 
+function renderSearchHistory() {
+  var cities = JSON.parse(localStorage.getItem("previousCities"));
+  if (cities === null){
+    cities = [];
+  }
 
-// Questions: 
+  for (i = 0; i < cities.length; i++){
+    var cityButton = document.createElement("button");
+    cityButton.setAttribute("class", "button");
+    cityButton.textContent = cities[i];
+    searchHistory.appendChild(cityButton);
+  }
+}
+
+function renderNewCitySearch(city){
+  var cityButton = document.createElement("button");
+  cityButton.setAttribute("class", "button");
+  cityButton.textContent = city;
+  searchHistory.appendChild(cityButton);
+}
+
+renderSearchHistory();
 
 
-//TODO - A click function for when a city is searched. 
-//This will unhide the weather data and render weather info for the searched city
-//This will also get the local storage of previous searches, and then add the most recent 
-//search to the local storage
+
+
 
 //TODO - A function that will render the search history of cities
 //This must be activated as the page loads

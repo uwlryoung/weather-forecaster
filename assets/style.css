@@ -1,7 +1,7 @@
 
-#search-bar {
+/* #search-bar {
     max-width: 500px;
-}
+} */
 
 .search {
     display: flex;
@@ -29,6 +29,17 @@ label {
     min-height: 250px;
     min-width: 100px;
     text-align: center;
+}
 
+#search-history {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.button {
+    margin-top: 10px;
+    padding: 2px 10px 2px 10px;
+    border-radius: 3px;
 }
 
