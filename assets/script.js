@@ -8,42 +8,74 @@ var currentCity = $("#city");
 var currentDate = $("#date");
 var displayCity = $("#displayCity");
 var searchFormEl = $("#search-form");
+var clearHistoryBtn = $("#clear-history");
 var futureForecast = document.getElementById("future-forecast");
 var searchHistory = document.getElementById("search-history");
 
 var apiKey = "0abc1b8372c44587f42b9a4f3413df22";
 
+//Renders search history on page load
 renderSearchHistory();
 
-//Click Event to get the submitted city 
+/* Click Events: 
+  1) Search Form - When activated, user input becomes var 'city', old data (if any) is replaced, alerts user if
+  nothing was searched, renders new city to search history if city was not in local storage 
+  2) Search History - When activated, it will render that button's city's weather information (by its id)
+  3) Clear History - When activated, it clears the local storage and removes the search history buttons
+-------------------------------------------------------------------------------------------------------------*/
+
+//Search Form Click Event
 searchFormEl.on("submit", function(event){
     event.preventDefault();
 
-    futureForecast.replaceChildren();
     var city = currentCity.val();
-    
+    var cities = JSON.parse(localStorage.getItem("previousCities"));
+
+    futureForecast.replaceChildren();
+
     if (city === ""){
       alert("Please Enter a City");
       return;
     } 
     
-    var cities = JSON.parse(localStorage.getItem("previousCities"));
+    if (cities === null){
+      cities = [];
+    }
+
+    //Renders the newly searched city button onto the search history, only if the city hasn't been searched before
     if (cities.indexOf(city) === -1){
       renderNewCitySearch(city);
     }
 
     displayCity.text(city);
+
     saveSearchHistory(city);
     getLatLon(city);
+  
+    //Resets the form input so user doesn't have to backspace
+    $(searchFormEl)[0].reset();
 });  
 
-//Click Event to get a previously submitted city (rendered Search History Buttons)
-$("button").on("click", function(){
-  var city = $("button").text();
-  console.log(city);
+
+//Searh History Click Event
+$(searchHistory).on("click", "button", function(event) {
+  futureForecast.replaceChildren();
+  var city = $(this).attr("id");
+  displayCity.text(city);
+  getLatLon(city);
 })
 
-//Functions to get the Current Weather (first gets the Latitude/Longitude, then gets the weather from the city)
+//Clear History Click Event
+clearHistoryBtn.on("click", function(){
+  localStorage.clear();
+  renderSearchHistory();
+  searchHistory.replaceChildren();
+})
+
+
+/*Functions to get the Current Weather (first gets the Latitude/Longitude, then gets the weather from the city)
+---------------------------------------------------------------------------------------------------------------*/
+//Gets the latitude and longitude of the input city
 function getLatLon (city){
     var requestURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&appid=" + apiKey;
     fetch(requestURL)
@@ -53,12 +85,14 @@ function getLatLon (city){
     .then(function (data){
       var lat = data[0].lat;
       var lon = data[0].lon;
+
       getCurrentWeather(lat,lon);
       getForecastWeather(lat,lon);
     })
   
 };
 
+//Gets the current weather using the latitude and longitude
 function getCurrentWeather (lat,lon){
   var requestURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + apiKey;
   fetch(requestURL)
@@ -74,6 +108,7 @@ function getCurrentWeather (lat,lon){
     })
 };
 
+//Gets the 5-day weather forecast of the current weather using the latitude and longitude
 function getForecastWeather (lat,lon){
   var requestURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + apiKey;
   fetch(requestURL)
@@ -115,6 +150,7 @@ function getForecastWeather (lat,lon){
     });
 };
 
+//Saves the search onto local storage, adding to a list of Previous Cities
 function saveSearchHistory(city) {
   var cities = JSON.parse(localStorage.getItem("previousCities"));
 
@@ -128,6 +164,7 @@ function saveSearchHistory(city) {
   localStorage.setItem("previousCities", JSON.stringify(cities));
 }
 
+//Renders search history into clickable buttons
 function renderSearchHistory() {
   var cities = JSON.parse(localStorage.getItem("previousCities"));
   if (cities === null){
@@ -136,30 +173,21 @@ function renderSearchHistory() {
 
   for (i = 0; i < cities.length; i++){
     var cityButton = document.createElement("button");
+    cityButton.setAttribute("id", cities[i]);
     cityButton.setAttribute("class", "button");
     cityButton.textContent = cities[i];
     searchHistory.appendChild(cityButton);
   }
 }
 
+//Renders the newly input city immediately into the search history
 function renderNewCitySearch(city){
   var cityButton = document.createElement("button");
+  cityButton.setAttribute("id", city);
   cityButton.setAttribute("class", "button");
   cityButton.textContent = city;
   searchHistory.appendChild(cityButton);
-  return cityButton;
 }
 
-//Function loads on page load, getting past searches
-// renderSearchHistory();
 
-
-
-
-
-//TODO - A function that will render the search history of cities
-//This must be activated as the page loads
-
-//TODO - A function that when a user clicks on one of the rendered history search buttons
-//that weather data is pulled up and rendered
 

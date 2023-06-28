@@ -1,6 +1,6 @@
 
 /* #search-bar {
-    max-width: 500px;
+    align-items: center;
 } */
 
 .search {
@@ -35,6 +35,17 @@ label {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+#clear{
+    display: flex;
+    justify-content: center;
+}
+#clear-history{
+    margin-bottom: 5px;
+    min-width: 200px;
+    background-color: #9ae2f8;
+    font-style: italic;
 }
 
 .button {
