@@ -120,7 +120,7 @@ function getForecastWeather (lat,lon){
       forecastHeader.textContent = "5-day Forecast for " + data.city.name;
       futureForecast.appendChild(forecastHeader);
 
-      for(i = 1; i < data.list.length; i+=8){
+      for(i = 6; i < data.list.length; i+=8){
         var weatherCard = document.createElement("div");
         weatherCard.setAttribute("class", "future-weather col");
 
