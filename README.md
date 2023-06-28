@@ -3,7 +3,7 @@
 ## Description
 A weather dashboard. Users input a city name and it returns the current weather and a five-day forecast. 
 
-[Weather Forecaster](https://uwlryoung.github.io/work-day-scheduler/)
+[Weather Forecaster](https://uwlryoung.github.io/weather-forecaster/)
 
 ## Screenshots and Explanation
 

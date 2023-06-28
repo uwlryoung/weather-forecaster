@@ -77,7 +77,7 @@ clearHistoryBtn.on("click", function(){
 ---------------------------------------------------------------------------------------------------------------*/
 //Gets the latitude and longitude of the input city
 function getLatLon (city){
-    var requestURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&appid=" + apiKey;
+    var requestURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&appid=" + apiKey;
     fetch(requestURL)
     .then(function (response){
       return response.json();
